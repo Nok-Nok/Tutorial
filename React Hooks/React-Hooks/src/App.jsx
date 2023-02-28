@@ -16,6 +16,7 @@ import UseWindowDimensions from './components/custom-hook/UseWindowDimensions';
 import UseFetch from './components/useReducer/useFetch';
 import Form from './components/useRef/Complex-Form';
 import CounterGame from './components/useRef/Click-Game';
+import Main from './components/useContext/Main';
 
 function App() {
   return (
@@ -40,8 +41,10 @@ function App() {
       <UseFetch /> */}
       {/* <h1>Complex Form</h1>
       <Form /> */}
-      <h1>Counter Game</h1>
-      <CounterGame />
+      {/* <h1>Counter Game</h1>
+      <CounterGame /> */}
+      <h1>Use Context Hook</h1>
+      <Main />
     </div>
   );
 }
