@@ -14,6 +14,8 @@ import UseWait from './components/custom-hook/usewait';
 import UseWindowDimensions from './components/custom-hook/UseWindowDimensions';
 // import UseFetch from './components/custom-hook/UseFetch';
 import UseFetch from './components/useReducer/useFetch';
+import Form from './components/useRef/Complex-Form';
+import CounterGame from './components/useRef/Click-Game';
 
 function App() {
   return (
@@ -34,8 +36,12 @@ function App() {
       <UseWait /> */}
       {/* <h1>Use Window Dimensions</h1>
       <UseWindowDimensions /> */}
-      <h1>Use Fetch</h1>
-      <UseFetch />
+      {/* <h1>Use Fetch</h1>
+      <UseFetch /> */}
+      {/* <h1>Complex Form</h1>
+      <Form /> */}
+      <h1>Counter Game</h1>
+      <CounterGame />
     </div>
   );
 }
