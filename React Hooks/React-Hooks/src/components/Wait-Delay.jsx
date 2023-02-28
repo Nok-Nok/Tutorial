@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-
-import './styles.css';
 
 /*
   Instructions:
@@ -12,10 +10,18 @@ import './styles.css';
 */
 
 function Wait({ delay = 1000, placeholder, ui }) {
-  return null;
+  //Render placeholder
+  const [text, setText] = useState(placeholder);
+
+  //Set time out then reder ui
+  useEffect(() => {
+    const id = setTimeout(() => setText(ui), delay);
+    return () => clearTimeout(id);
+  }, [delay]);
+  return text;
 }
 
-function App() {
+function WaitDelay() {
   return (
     <div className="App">
       <Wait
@@ -27,6 +33,4 @@ function App() {
   );
 }
 
-const rootElement = document.getElementById('root');
-const root = ReactDOM.createRoot(rootElement);
-root.render(<App />);
+export default WaitDelay;
