@@ -27,6 +27,7 @@ function Todo() {
         placeholder="New Todo"
       />
       <button onClick={addTask}>Add</button>
+
       <ul>
         {tasks.map((task, i) => {
           return (
