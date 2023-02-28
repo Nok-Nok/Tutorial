@@ -12,7 +12,8 @@ import WaitDelay from './components/Wait-Delay';
 import APIRequest from './components/API-Requests';
 import UseWait from './components/custom-hook/usewait';
 import UseWindowDimensions from './components/custom-hook/UseWindowDimensions';
-import UseFetch from './components/custom-hook/UseFetch';
+// import UseFetch from './components/custom-hook/UseFetch';
+import UseFetch from './components/useReducer/useFetch';
 
 function App() {
   return (
