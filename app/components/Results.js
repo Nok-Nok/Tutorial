@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { battle } from '../utils/api'
 import { FaCompass, FaBriefcase, FaUsers, FaUserFriends, FaCode, FaUser } from 'react-icons/fa'
 import Card from './Card'
@@ -47,33 +47,27 @@ ProfileList.propTypes = {
   profile: PropTypes.object.isRequired,
 }
 
-export default class Results extends React.Component {
-  state = {
-    winner: null,
-    loser: null,
-    error: null,
-    loading: true
-  }
-  componentDidMount () {
-    const { playerOne, playerTwo } = queryString.parse(this.props.location.search)
-
+export default function Results ({location}) {
+  const [winner, setWinner] = useState(null)
+  const [loser, setLoser] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(()=>{
+    setLoading(true)
+    const { playerOne, playerTwo } = queryString.parse(location.search)
     battle([ playerOne, playerTwo ])
       .then((players) => {
-        this.setState({
-          winner: players[0],
-          loser: players[1],
-          error: null,
-          loading: false
-        })
+        setWinner(players[0])
+        setLoser(players[1])
+        setError(null)
+        setLoading(false)
       }).catch(({ message }) => {
-        this.setState({
-          error: message,
-          loading: false
-        })
+        setError(message);
+        setLoading(false)
       })
-  }
-  render() {
-    const { winner, loser, error, loading } = this.state
+  },[])
+
+  
 
     if (loading === true) {
       return <Loading text='Battling' />
@@ -114,5 +108,5 @@ export default class Results extends React.Component {
         </Link>
       </React.Fragment>
     )
-  }
+  
 }
