@@ -12,27 +12,21 @@ const styles = {
   },
 };
 
-export default function Loading({ text, speed }) {
+export default function Loading({ text = 'Loading', speed = 300 }) {
   const [content, setContent] = useState(text);
   const interval = useRef(null);
   useEffect(() => {
-    window.clearInterval(interval.current);
     interval.current = window.setInterval(() => {
-      content === text + '...'
-        ? setContent(text)
-        : setContent((content) => content + '.');
+      setContent((content) =>
+        content === text + '...' ? text : `${content}.`
+      );
+
+      //This approach below is incorrect, since setState is async function => content === text + '...' will always be evaluated way before setContent be completed => we will not get the behavior of repating ., .., ... that we want.
+      // content === text + '...'
+      //   ? setContent(text)
+      //   : setContent((content) => content + '.');
     }, speed);
     return () => window.clearInterval(interval.current);
-  }, [content]);
+  }, [text, speed]);
   return <p style={styles.content}>{content}</p>;
 }
-
-Loading.propTypes = {
-  text: PropTypes.string.isRequired,
-  speed: PropTypes.number.isRequired,
-};
-
-Loading.defaultProps = {
-  text: 'Loading',
-  speed: 300,
-};
