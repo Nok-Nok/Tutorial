@@ -25,3 +25,7 @@ export default function Loading({ text = 'Loading', speed = 300 }) {
   return <p style={styles.content}>{content}</p>;
 }
 
+Loading.propTypes = {
+  text: PropTypes.string,
+  speed: PropTypes.number,
+};

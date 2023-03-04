@@ -17,21 +17,21 @@ const postReducer = (state, action) => {
     case 'postSuccess':
       return {
         ...state,
-        post: action.post,
         loadingPost: false,
+        post: action.post,
       };
     case 'commentSuccess':
       return {
         ...state,
-        comments: action.comments,
         loadingComments: false,
+        comments: action.comments,
       };
     case 'error':
       return {
         ...state,
-        error: action.message,
         loadingPost: false,
         loadingComments: false,
+        error: action.message,
       };
     default:
       throw new Error(
