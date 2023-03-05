@@ -1,0 +1,22 @@
+{
+  "name": "practice-classes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "jest": {
+    "transform": {
+      "^.+\\.(js|ts|tsx)$": "ts-jest"
+    }
+  },
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.4.3",
+    "parcel-bundler": "^1.6.1",
+    "ts-jest": "^29.0.5"
+  },
+  "keywords": []
+}
