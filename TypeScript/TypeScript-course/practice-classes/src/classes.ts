@@ -1,6 +1,6 @@
 export class Fruit {
   private isEdible = true;
-  constructor(public name: string, protected sweetness: number = 50) {
+  constructor(public name: string, protected sweetness = 50) {
     this.name = name;
     this.sweetness = sweetness;
   }
