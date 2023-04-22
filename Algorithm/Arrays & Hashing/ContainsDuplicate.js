@@ -17,7 +17,8 @@ Example 3:
 Input: nums = [1,1,1,3,3,4,3,2,4,2]
 Output: true
  */
-
+// Space Complexity: O(n) where n is the # of elements in the array.
+// Time Complexity: O(n) where n is the # of elements in the array.
 function containsDuplicate(arr) {
   // Create a cache for unique number in the array
   const cached = new Set();
