@@ -53,8 +53,8 @@ function productExceptSelf(nums) {
   return result;
 }
 
-nums = [1, 2, 3, 4];
-console.log(productExceptSelf(nums));
+// nums = [1, 2, 3, 4];
+// console.log(productExceptSelf(nums));
 
-nums = [-1, 1, 0, -3, 3];
-console.log(productExceptSelf(nums));
+// nums = [-1, 1, 0, -3, 3];
+// console.log(productExceptSelf(nums));
