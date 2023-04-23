@@ -29,7 +29,8 @@ Constraints:
 1 <= s.length <= 2 * 105
 s consists only of printable ASCII characters.
  */
-
+// Time complexity: O(n) where n is the length of the string
+// Space complexity: O(1)
 function isPalindrome(s) {
   // Initialize condition for letter
   const isAlphaNum = (c) => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
