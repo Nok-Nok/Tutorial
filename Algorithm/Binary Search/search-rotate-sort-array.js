@@ -56,7 +56,7 @@ function search(nums, target) {
     // Else if mid on right portion
     else {
       // Move right pointer if target < midVal or if target on left portion
-      target < midVal || target >= nums[left]
+      target < midVal || target > nums[right]
         ? (right = mid - 1)
         : (left = mid + 1);
     }

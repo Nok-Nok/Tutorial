@@ -50,15 +50,16 @@ function findMin(nums) {
   while (left <= right) {
     // Find the mid point
     const mid = Math.floor((left + right) / 2);
-    const leftVal = nums[mid - 1] === undefined ? Infinity : nums[mid - 1];
     const midVal = nums[mid];
-    const rightVal = nums[mid + 1] === undefined ? Infinity : nums[mid + 1];
-    // If at min, return min
-    if (midVal < leftVal && midVal < rightVal) return midVal;
-    // If min on right portion
-    else if (midVal > nums[right]) left = mid + 1;
-    // If min on left portion
-    else right = mid - 1;
+    // If midVal smaller than the left & right value, return midVal as the min
+    if (
+      (mid - 1 < 0 || midVal < nums[mid - 1]) &&
+      (mid + 1 >= nums.length || midVal < nums[mid + 1])
+    )
+      return midVal;
+    // Move right pointer if mid on right portion 
+    // Else move left pointer
+    midVal <= nums[right] ? (right = mid - 1) : (left = mid + 1);
   }
 }
 
