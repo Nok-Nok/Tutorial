@@ -29,6 +29,8 @@ strs[i] consists of lowercase letters only.
 All words in strs have the same length and are anagrams of each other.
  */
 
+// Time complexity: O(n^2*m) where n is number of strings and m is the max length of a string
+// Space complexity: O(n^2) where n is number of strings (for the caching similar groups)
 function numSimilarGroups(strs) {
   // Initialize an object to store the graph of similar strings
   const similarGroups = {};
@@ -43,8 +45,8 @@ function numSimilarGroups(strs) {
     }
   }
 
-  // Initialize a set to store groups of similar strings
-  let groups = new Set();
+  // Initialize number of groups of string
+  let groups = 0;
   // Intialize a set to store visited string
   let visited = new Set();
 
@@ -52,20 +54,23 @@ function numSimilarGroups(strs) {
   const dfs = (str) => {
     // Add the str to the visited set
     visited.add(str);
-    // Explore the lenght of the str
+    // Explore the length of the str
     for (let swap of similarGroups[str]) {
       if (!visited.has(swap)) dfs(swap);
     }
   };
 
-  // Find the length of
+  // Loop through each str from the str array
   for (let str of strs) {
+    // If the str has not been visited
     if (!visited.has(str)) {
-      groups.add(str);
+      // Increment number of group
+      groups++;
+      // DFS to visit all str within the group
       dfs(str);
     }
   }
-  return groups.size;
+  return groups;
 }
 
 // Two anagrams are similar if the difference char is <=2
