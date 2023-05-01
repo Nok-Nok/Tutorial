@@ -26,6 +26,8 @@ s consists of only uppercase English letters.
 0 <= k <= s.length
  */
 
+// Time complexity: O(n) where n is length of string
+// Space complexity: O(1)
 function characterReplacement(s, k) {
   // Intialize a cache for the substring
   let frequency = new Array(26).fill(0);
