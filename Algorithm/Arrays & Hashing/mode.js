@@ -11,6 +11,8 @@ mode([7, 5, 8, 8, 2, 5]) -> 8
 
 */
 
+// Time Complexity: O(n) where n is the length of the array
+// Space Complexity: O(n) where n is the length of the array. If all nums are unique, frequency cache will have n key-value pairs.
 const mode = (array) => {
   // Create a cache to store duplicate
   const frequency = {};
@@ -34,26 +36,28 @@ const mode = (array) => {
   return maxDuplicate;
 };
 
-// console.log(mode([3, 2, 4, 3]));
-// console.log(mode([7, 5, 8, 8, 2, 5]));
+console.log(mode([3, 2, 4, 3]));
+console.log(mode([7, 5, 8, 8, 2, 5]));
 /*
-  
-  Extension:
-  
-  Given an arbitrarily nested array of numbers (integers), return the mode, that
-  is, the number that appears most often. If there are multiple modes, use the max
-  of the modes.
-  
-  Assume that at least one number is present in the nested array structure,
-  although some of the nested arrays may be empty.
-  
-  e.g.
-  modeNested([[3], [2, [4]], 3]) -> 3
-  modeNested([7, [[5, [8], 8], 2, 5]]) -> 8
-  modeNested([4, []]) -> 4 
-  
-  */
 
+Extension:
+
+Given an arbitrarily nested array of numbers (integers), return the mode, that
+is, the number that appears most often. If there are multiple modes, use the max
+of the modes.
+
+Assume that at least one number is present in the nested array structure,
+although some of the nested arrays may be empty.
+
+e.g.
+modeNested([[3], [2, [4]], 3]) -> 3
+modeNested([7, [[5, [8], 8], 2, 5]]) -> 8
+modeNested([4, []]) -> 4 
+
+*/
+
+// Time Complexity: O(n) where n is the number of individual numbers in the array
+// Space Complexity: O(n) where n is the number of individual numbers in the array. If all nums are unique, frequency cache will have n key-value pairs.
 const modeNested = (array) => {
   // Create a cache to store duplicate
   const frequency = {};
@@ -96,7 +100,7 @@ const flattenArray = (array) => {
     }
   }
 };
-flattenArray([7, [[5, [8], 8], 2, 5]]);
+// flattenArray([7, [[5, [8], 8], 2, 5]]);
 
 // console.log(modeNested([[3], [2, [4]], 3]));
 // console.log(modeNested([7, [[5, [8], 8], 2, 5]]));
