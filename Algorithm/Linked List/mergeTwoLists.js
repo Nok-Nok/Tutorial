@@ -29,11 +29,12 @@ The number of nodes in both lists is in the range [0, 50].
 -100 <= Node.val <= 100
 Both list1 and list2 are sorted in non-decreasing order.
  */
-
 function ListNode(val, next) {
   this.val = val === undefined ? 0 : val;
   this.next = next === undefined ? null : next;
 }
+// Time Complexity: O(n+m) where n is length of list1 and m is length of list2
+// Space Complexity: O(1)
 function mergeTwoLists(list1, list2) {
   const Dummy = new ListNode();
   let cur = Dummy;
