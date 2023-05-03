@@ -49,7 +49,7 @@ function minWindow1(s, t) {
   // Intiialize the left pointer of the sliding window
   let l = 0;
   let minLength = Infinity;
-  let result;
+  let result = [0, -1];
   let len = t.length;
 
   // Loop through the s string:
@@ -79,7 +79,7 @@ function minWindow1(s, t) {
       }
     }
   }
-  return result ? s.slice(result[0], result[1] + 1) : '';
+  return s.slice(result[0], result[1] + 1);
 }
 
 // Time Complexity: O(n+2m) = O(n+m) where n is length of t and m is length of s
