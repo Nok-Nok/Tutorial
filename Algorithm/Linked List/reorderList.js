@@ -32,6 +32,8 @@ function ListNode(val, next) {
   this.next = next === undefined ? null : next;
 }
 
+// Time Complexity: O(n) where n is the length of linked list
+// Space Complexity: O(1)
 function reorderList(head) {
   // FIND MIDPOINT OF LINKEDLIST
   let slow = head;
