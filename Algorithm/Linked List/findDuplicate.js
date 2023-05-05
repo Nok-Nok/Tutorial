@@ -32,14 +32,41 @@ How can we prove that at least one duplicate number must exist in nums?
 Can you solve the problem in linear runtime complexity?
  */
 
+// This is a linked list cycle problem
+/**
+ * Floyd's Algorithm
+ * In order to find the start of the cycle
+ * 1. Get a fast and slow pointer, move until the two meet
+ * 2. Get another slow pointer, move the 2 slow until they meet
+ * 3. The meeting locaiton is the start of the cycle
+ */
+// Time Complexity: O(n) where n is the length of nums
+// Space Complexity: O(1)
 function findDuplicate(nums) {
-  let min = Infinity;
-  let max = -Infinity;
-  let sum = 0;
-  for (const num of nums) {
-    if (num > max) max = num;
-    if (num < min) min = num;
-    sum += num;
+  // Initialize fast and slow pointer
+  let fast = 0;
+  let slow = 0;
+  // Traverse through the linked list
+  while (true) {
+    // Update slow and fast pointer
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+    // When slow and fast meet, stop
+    if (slow === fast) break;
   }
-  return sum - ((min + max) / 2) * (nums.length - 1);
+
+  // Initialize 2nd slow pointer
+  let slow2 = 0;
+  while (true) {
+    // Update 2 slow pointers
+    slow2 = nums[slow2];
+    slow = nums[slow];
+    // If the two pointer meet, this is the start of the cycle (a.k.a the duplicate number)
+    if (slow === slow2) return slow;
+  }
 }
+
+// nums = [1, 3, 4, 2, 2];
+// console.log(findDuplicate(nums));
+// nums = [3, 1, 3, 4, 2];
+// console.log(findDuplicate(nums));
