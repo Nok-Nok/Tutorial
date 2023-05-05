@@ -38,6 +38,7 @@ At most 2 * 105 calls will be made to set and get.
  */
 
 function TimeMap() {
+  // Create a cache object: [key: array([timestamp, value])]
   this.cache = {};
 }
 
@@ -48,10 +49,12 @@ function TimeMap() {
  * @return {void}
  */
 TimeMap.prototype.set = function (key, value, timestamp) {
+  // If key does not exist in cached, intialize the array
   if (!this.cache[key]) {
-    this.cache[key] = {};
+    this.cache[key] = [];
   }
-  this.cache[key][timestamp] = value;
+  // Add timestamp and value to the array
+  this.cache[key].push([timestamp, value]);
 };
 
 /**
@@ -59,11 +62,14 @@ TimeMap.prototype.set = function (key, value, timestamp) {
  * @param {number} timestamp
  * @return {string}
  */
+// Time Complexity: O(log n) for binary search where n is the maxlength of cache[key]
+// Space Complexity: O(n*m) where m is number of keys, and n is the maxlength of cache[key].
 TimeMap.prototype.get = function (key, timestamp) {
-  // Intialize left and right pointers
-  const times = Object.keys(this.cache[key]);
+  // If there is no value stored for the key, return empty string
+  if (!this.cache[key]) return '';
+  // Intialize left and right pointers for Binary Search
   let left = 0;
-  let right = times.length - 1;
+  let right = this.cache[key].length - 1;
   // Find the closest time to the timestamp
   let maxTime = -Infinity;
 
@@ -71,20 +77,21 @@ TimeMap.prototype.get = function (key, timestamp) {
   while (left <= right) {
     // Find the mid point
     const mid = Math.floor((left + right) / 2);
-    const midVal = times[mid];
-    // console.log(midVal);
-    // console.log(midVal == timestamp, this.cache[key][midVal]);
+    const midTime = this.cache[key][mid][0];
     // If find matching, return
-    if (midVal == timestamp) return this.cache[key][midVal];
-    if (midVal <= timestamp) {
-      maxTime = Math.max(midVal, maxTime);
+    if (midTime == timestamp) return this.cache[key][mid][1];
+    // Move left & right pointer
+    // If midTime is still < timeStamp, move the left pointer up. Update maxTime as applicable since we are trying to find the maxTime prior to the given input timeStamp
+    if (midTime < timestamp) {
+      // Update maxTime as applicable
+      maxTime = Math.max(mid, maxTime);
       left = mid + 1;
     } else {
       right = mid - 1;
     }
   }
-  console.log(maxTime);
-  return maxTime === -Infinity ? '' : this.cache[key][maxTime];
+  // Return value
+  return maxTime === -Infinity ? '' : this.cache[key][maxTime][1];
 };
 
 /**
@@ -94,12 +101,14 @@ TimeMap.prototype.get = function (key, timestamp) {
  * var param_2 = obj.get(key,timestamp)
  */
 
-const timestamp = new TimeMap();
-console.log(timestamp);
-timestamp.set('love', 'high', 10);
-console.log(timestamp);
-timestamp.set('love', 'low', 20);
-console.log(timestamp.get('love', 5));
+// const timestamp = new TimeMap();
+// console.log(timestamp);
+// timestamp.set('love', 'high', 10);
+// console.log(timestamp);
+// timestamp.set('love', 'low', 20);
+// console.log(timestamp);
+// // console.log(timestamp.get('love', 5));
+// console.log(timestamp.get('love', 12));
 
 // console.log(timestamp);
 // timestamp.set('foo', 'bar1', 3);
