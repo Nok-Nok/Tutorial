@@ -20,7 +20,8 @@ Constraints:
 
 1 <= n <= 20
  */
-
+// Time complexity: O(n2) since we need traver through matrix nxn to fill out all value
+// Space complexity: O(1) if we don't count the return matrix. 
 function generateMatrix(n) {
   const matrix = new Array(n).fill(0).map((e) => new Array(n));
   const max = n * n;
@@ -53,4 +54,4 @@ function generateMatrix(n) {
 }
 
 
-generateMatrix(4);
+// generateMatrix(4);
