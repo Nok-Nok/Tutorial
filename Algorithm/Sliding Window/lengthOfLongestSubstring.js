@@ -58,6 +58,9 @@ function lengthOfLongestSubstring1(s) {
 }
 
 // Other approach
+
+// Time complexity: O(n) since we loop through each char of the string
+// Space complexity: O(n) if all characters are unique
 function lengthOfLongestSubstring(s) {
   // Initialize a set to store character of a substring
   const charSet = new Set();
