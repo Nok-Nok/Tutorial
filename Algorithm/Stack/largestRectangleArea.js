@@ -47,9 +47,9 @@ function largestRectangleArea(heights) {
   return maxArea;
 }
 
-heights = [2, 1, 5, 6, 2, 3];
-console.log(largestRectangleArea(heights));
-heights = [2, 1, 2];
-console.log(largestRectangleArea(heights));
-heights = [3, 6, 5, 7, 4, 8, 1, 0];
-console.log(largestRectangleArea(heights));
+// heights = [2, 1, 5, 6, 2, 3];
+// console.log(largestRectangleArea(heights));
+// heights = [2, 1, 2];
+// console.log(largestRectangleArea(heights));
+// heights = [3, 6, 5, 7, 4, 8, 1, 0];
+// console.log(largestRectangleArea(heights));
