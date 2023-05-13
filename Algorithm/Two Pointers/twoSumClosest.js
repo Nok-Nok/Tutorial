@@ -25,7 +25,8 @@ array, which is O(n*log(n)) time, and see if you can post-process the array in
 O(n) time.
 
 */
-
+// Time complexity: O(nlogn) for sorting the nums array
+// Space complexity: O(1) 
 const twoSumClosest = (nums, target) => {
   // Sort the array nums
   nums.sort();
