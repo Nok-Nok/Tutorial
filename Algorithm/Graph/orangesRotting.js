@@ -84,11 +84,11 @@ function rotting(r, c, row, col, grid, rotten, fresh) {
   }
 }
 
-grid = [
-  [2, 1, 1],
-  [1, 1, 0],
-  [0, 1, 1],
-];
-console.log(orangesRotting(grid));
-grid = [[0, 2]];
-console.log(orangesRotting(grid));
+// grid = [
+//   [2, 1, 1],
+//   [1, 1, 0],
+//   [0, 1, 1],
+// ];
+// console.log(orangesRotting(grid));
+// grid = [[0, 2]];
+// console.log(orangesRotting(grid));
