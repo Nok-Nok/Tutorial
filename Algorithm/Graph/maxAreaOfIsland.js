@@ -28,7 +28,8 @@ n == grid[i].length
 1 <= m, n <= 50
 grid[i][j] is either 0 or 1.
  */
-
+// Time Complexity: O(m*n) where m*n is the size of the grid
+// Space Complexity: O(m*n) where m*n is the size of the grid
 function maxAreaOfIsland(grid) {
   const row = grid.length;
   const col = grid[0].length;
