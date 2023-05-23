@@ -44,13 +44,7 @@ function exist(board, word) {
   const col = board[0].length;
   // Initialize visited:
   const visited = new Set();
-  // Initialize dirs:
-  const dirs = [
-    [0, 1],
-    [0, -1],
-    [1, 0],
-    [-1, 0],
-  ];
+  // Traver through the grid to find word
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
       if (dfs(r, c, 0)) return true;
@@ -78,7 +72,11 @@ function exist(board, word) {
     visited.add(pos);
 
     // Traverse and end the traverse if found true:
-    const found = dirs.some(([x, y]) => dfs(r + x, c + y, i + 1));
+    const found =
+      dfs(r + 1, c, i + 1) ||
+      dfs(r - 1, c, i + 1) ||
+      dfs(r, c + 1, i + 1) ||
+      dfs(r, c - 1, i + 1);
 
     // Back Tracking:
     visited.delete(pos);
