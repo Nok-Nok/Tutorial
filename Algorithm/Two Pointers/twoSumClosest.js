@@ -26,10 +26,10 @@ O(n) time.
 
 */
 // Time complexity: O(nlogn) for sorting the nums array
-// Space complexity: O(1) 
+// Space complexity: O(1)
 const twoSumClosest = (nums, target) => {
   // Sort the array nums
-  nums.sort();
+  nums.sort((a, b) => a - b);
   // Initialize closest
   let closest = Infinity;
   // Initialize left and right pointer
