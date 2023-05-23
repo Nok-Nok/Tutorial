@@ -33,13 +33,13 @@ grid[i][j] is either 0 or 1.
 function maxAreaOfIsland(grid) {
   const row = grid.length;
   const col = grid[0].length;
-  let maxArea = -Infinity;
+  let maxArea = 0;
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
-      maxArea = Math.max(maxArea, dfs(r, c, row, col, grid));
+      if (grid[r][c]) maxArea = Math.max(maxArea, dfs(r, c, row, col, grid));
     }
   }
-  return maxArea
+  return maxArea;
 }
 
 function dfs(r, c, row, col, grid) {
