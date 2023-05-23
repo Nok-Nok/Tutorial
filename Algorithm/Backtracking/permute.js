@@ -26,7 +26,7 @@ Constraints:
 All the integers of nums are unique.
  */
 
-function permute(nums) {
+function permute1(nums) {
   const visisted = new Set();
   const perm = [];
   const result = [];
@@ -47,6 +47,32 @@ function permute(nums) {
       // Back Tracking
       visisted.delete(i);
       perm.pop();
+    }
+  }
+}
+
+
+// Time Complexity: 
+// Space Complexity: O(N) for recursion + O(N * N!) for amount of combination => O(N * N!)
+function permute(nums) {
+  const perm = [];
+  const result = [];
+  dfs(perm);
+  return result;
+  function dfs(perm) {
+    // Base case: when we used all values in num array
+    if (!nums.length) return result.push([...perm]);
+
+    // Recursive case
+    for (let i = 0; i < nums.length; i++) {
+      // Grab the first value and push to perm
+      const num = nums.shift();
+      perm.push(num);
+      // Recursive
+      dfs(perm);
+      // Back Tracking
+      perm.pop();
+      nums.push(num);
     }
   }
 }
