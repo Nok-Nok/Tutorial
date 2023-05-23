@@ -26,6 +26,8 @@ Constraints:
 All the numbers of nums are unique.
  */
 
+// Space Complexity: O(N) where N is the length of the array
+// Time Complexity: O(2^N) where N is the length of the array
 function subsets(nums) {
   const result = [];
   dfs(0, []);

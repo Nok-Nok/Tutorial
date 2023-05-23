@@ -56,6 +56,8 @@ function combinationSum1(candidates, target) {
     dfs(i + 1, combSum, remaining);
   }
 }
+// Time Complexity: O(N^(T/M)) where N is number of elements in candidates array, T is the target, M is the minimum value
+// Space Complexity: O(T/M) where T is target and M is the minimum value in candidates array
 function combinationSum(candidates, target) {
   const result = [];
   const combSum = [];
