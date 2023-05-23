@@ -40,20 +40,22 @@ function Trie() {
   this.root = new TrieNode();
 }
 
+Trie.prototype.add = function (word) {
+  let cur = this.root;
+  for (const letter of word) {
+    // If letter is not in the children, add it
+    if (!(letter in cur.children)) cur.children[letter] = new TrieNode();
+    // Move to next letter
+    cur = cur.children[letter];
+  }
+  cur.end = true;
+};
+
 function findWords(board, words) {
   // Construct a tries for words
   const trie = new Trie();
-  for (const word of words) {
-    // Construct the word
-    let cur = trie.root;
-    for (const letter of word) {
-      // If letter is not in the children, add it
-      if (!(letter in cur.children)) cur.children[letter] = new TrieNode();
-      // Move to next letter
-      cur = cur.children[letter];
-    }
-    cur.end = true;
-  }
+  // Add words to the trie
+  words.forEach((word) => trie.add(word));
   // Intialize a result array
   const result = [];
   // Traverse through the board
@@ -80,7 +82,6 @@ function findWords(board, words) {
       return;
 
     // Update a clone of visited set
-    visited = new Set(visited);
     visited.add(pos);
 
     // Update cur & word:
@@ -96,6 +97,9 @@ function findWords(board, words) {
     dfs(r, c + 1, row, col, word, cur, visited);
     dfs(r - 1, c, row, col, word, cur, visited);
     dfs(r + 1, c, row, col, word, cur, visited);
+
+    // After visitted all subsequent letters, delete pos from visited, so this pos can be reused for a different route
+    visited.delete(pos);
   }
   return result;
 }
