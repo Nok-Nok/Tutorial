@@ -6,6 +6,8 @@ to the array prototype while solving the problem.
 
 */
 
+// Time Complexity: O(n) where n is number of elements in the array
+// Space Complexity: O(1) 
 const reverseArray = (array) => {
   // Intialize left and right pointers
   let l = 0;
@@ -33,7 +35,8 @@ const reverseArray = (array) => {
   input string will always have at least one word
   
   */
-
+// Time Complexity: O(n) where n is number of words in the sentence
+// Space Complexity: O(1) 
 const reverseSentence = (sentence) => {
   return reverseArray(sentence.split(' ')).join(' ');
 };
