@@ -68,7 +68,7 @@ function cloneGraph(node) {
     // Update the visited:
     const clone = new Node(node.val);
     visited[node.val] = clone;
-
+    image.png
     // DFS neighbor node
     for (const neighbor of node.neighbors) {
       clone.neighbors.push(dfs(neighbor));
