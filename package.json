@@ -1,0 +1,23 @@
+{
+  "name": "learning-journey",
+  "version": "1.0.0",
+  "description": "Place where I practice/learn a new tech stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngoczwolinski/Learning-Journey.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngoczwolinski/Learning-Journey/issues"
+  },
+  "homepage": "https://github.com/ngoczwolinski/Learning-Journey#readme",
+  "dependencies": {
+    "prettier": "^2.8.8"
+  }
+}

@@ -35,6 +35,58 @@ n == grid[i].length
 1 <= m, n <= 10
 grid[i][j] is 0, 1, or 2.
  */
+// Multi-source BFS approach
+// Time Complexity: O(m*n)
+// Space Complexity: O(m*n)
+function orangesRotting(grid) {
+  const row = grid.length;
+  const col = grid[0].length;
+  // Loop through to get all rotten and fresh oranges position
+  let rotten = [];
+  let fresh = 0;
+  for (let r = 0; r < row; r++) {
+    for (let c = 0; c < col; c++) {
+      if (grid[r][c] === 2) {
+        rotten.push([r, c]);
+      } else if (grid[r][c] === 1) fresh++;
+    }
+  }
+
+  // BFS to rot all orranges and keep track of time
+  let time = 0;
+  const dirs = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+  ];
+  // While there is still new rotten oranges & still fresh oranges
+  while (rotten.length && fresh) {
+    // Find new rotten oranges
+    const newRotten = [];
+    for (const [r, c] of rotten) {
+      for (const [x, y] of dirs) {
+        const newR = r + x;
+        const newC = c + y;
+        // Conditional case: if in bound and fresh, ROTTEN it
+        const rowInBound = newR >= 0 && newR < row;
+        const colInBound = newC >= 0 && newC < col;
+        if (rowInBound && colInBound && grid[newR][newC] === 1) {
+          grid[newR][newC] = 2;
+          fresh--;
+          newRotten.push([newR, newC]);
+        }
+      }
+    }
+    // Update rotten & time
+    rotten = newRotten;
+    time++;
+  }
+
+  // Return the time
+  return fresh ? -1 : time;
+}
+
 // This is a graph problem that we use BFS
 // Time Complexity: O(n*m) where n*m is the size of the grid
 // Space Complexity: O(n*m) where n*m is the size of the grid
