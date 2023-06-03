@@ -29,6 +29,8 @@ ai != bi
 There are no self-loops or repeated edges.
  */
 
+// Time Complexity: O(V+E)
+// Space Complexity: O(V)
 function validTree1(n, edges) {
   // Create array for parent and rank
   const parent = new Array(n).fill(0).map((_, i) => i);
@@ -85,6 +87,8 @@ function validTree1(n, edges) {
   }
 }
 
+// Time complexity: O(V+E)
+// Space complexity: O(V)
 function validTree(n, edges) {
   // Construct an array for all neigbors
   const neighbors = new Array(n).fill(0).map((e) => []);
