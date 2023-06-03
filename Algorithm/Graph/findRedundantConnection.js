@@ -159,9 +159,9 @@ function findRedundantConnection(edges) {
 // console.log(findRedundantConnection(edges));
 // edges = [
 //   [1, 3],
-//   [1, 2],
 //   [2, 5],
 //   [3, 4],
 //   [2, 4],
+//   [1, 2],
 // ];
 // console.log(findRedundantConnection(edges));
