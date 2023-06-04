@@ -1,4 +1,4 @@
-// Kth Largest Element in a Stream
+// Making A Large Island
 
 /**
  * You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.
@@ -34,6 +34,8 @@ n == grid[i].length
 grid[i][j] is either 0 or 1.
  */
 
+// Time Complexity: O(n2)
+// Space Complexity: O(n)
 function largestIsland(grid) {
   // Obtain row and col
   const row = grid.length;
@@ -41,7 +43,7 @@ function largestIsland(grid) {
   const visited = new Set();
   let maxArea = 0;
   let count = 0;
-  // Traverse through the grid
+  // Traverse through the grid (O(n^2))
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
       if (grid[r][c] === 1 && !visited.has(r + ',' + c)) {
@@ -61,7 +63,7 @@ function largestIsland(grid) {
     }
   }
   // console.table(grid);
-  // Traverse through the grid
+  // Traverse through the grid (O(n))
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
       // If grid is a 0, get maxArea of neighbor island
