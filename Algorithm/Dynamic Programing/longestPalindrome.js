@@ -24,7 +24,8 @@ Constraints:
 1 <= s.length <= 1000
 s consist of only digits and English letters.
  */
-
+// Time Complexity: O(n2)
+// Space Complexity: O(n) 
 function longestPalindrome(s) {
   let maxStart = 0;
   let maxEnd = 0;
