@@ -459,15 +459,52 @@ var longestIncreasingPath = function (matrix) {
     return cache[r][c];
   }
 };
-matrix = [
-  [3, 4, 5],
-  [3, 2, 6],
-  [2, 2, 1],
-];
-console.log(longestIncreasingPath(matrix));
-matrix = [
-  [9, 9, 4],
-  [6, 6, 8],
-  [2, 1, 1],
-];
-console.log(longestIncreasingPath(matrix));
+// matrix = [
+//   [3, 4, 5],
+//   [3, 2, 6],
+//   [2, 2, 1],
+// ];
+// console.log(longestIncreasingPath(matrix));
+// matrix = [
+//   [9, 9, 4],
+//   [6, 6, 8],
+//   [2, 1, 1],
+// ];
+// console.log(longestIncreasingPath(matrix));
+
+// Time Complexity: O(s*t) where s is length of s and t is length of t
+// Space Complexity: O(t) where t is length of t
+var numDistinct = function (s, t) {
+  let dp = new Array(t.length).fill(0);
+  dp[-1] = 1; //for empty string, we will get 1 comb
+  for (const charS of s) {
+    const newDp = new Array(t.length).fill(0);
+    newDp[-1] = 1;
+    for (let i = 0; i < t.length; i++) {
+      if (charS === t[i]) {
+        // f(cur) = f(prev) + f(prev-1)
+        newDp[i] = dp[i] + dp[i - 1];
+      } else newDp[i] = dp[i];
+    }
+    dp = newDp;
+  }
+  return dp[t.length - 1];
+};
+// Optimized:
+// Time Complexity: O(s*t)
+// Space Complexity: O(t) rather O(2t) like previous approach
+var numDistinct = function (s, t) {
+  let dp = new Array(t.length).fill(0);
+  dp[-1] = 1; //for empty string, we will get 1 comb
+  for (const charS of s) {
+    for (let i = t.length - 1; i >= 0; i--) {
+      // f(cur) = f(prev) + f(prev-1)
+      if (charS === t[i]) dp[i] += dp[i - 1];
+    }
+  }
+  return dp[t.length - 1];
+};
+(s = 'rabbbit'), (t = 'rabbit');
+console.log(numDistinct(s, t));
+(s = 'babgbag'), (t = 'bag');
+console.log(numDistinct(s, t));
