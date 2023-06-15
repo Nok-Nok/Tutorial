@@ -418,5 +418,56 @@ var findTargetSumWays = function (nums, target) {
   return dp[total + target] ?? 0;
 };
 
-(nums = [1, 1, 1, 1, 1]), (target = 3);
-console.log(findTargetSumWays(nums, target));
+// (nums = [1, 1, 1, 1, 1]), (target = 3);
+// console.log(findTargetSumWays(nums, target));
+
+// Time Complexity: O(n*m)
+// Space Complexity: O(n*m)
+var longestIncreasingPath = function (matrix) {
+  const row = matrix.length;
+  const col = matrix[0].length;
+  // Contruct a cache matrix
+  const cache = new Array(row).fill(0).map((e) => new Array(col).fill(0));
+  let max = 1;
+  // Loop through matrix
+  for (let r = 0; r < row; r++) {
+    for (let c = 0; c < col; c++) {
+      if (!cache[r][c]) dfs(r, c, matrix, row, col, cache, -Infinity);
+    }
+  }
+  return max;
+  function dfs(r, c, matrix, row, col, cache, prevVal) {
+    // Base case: if out of bound, curVal<=prevVal, return 0
+    const rowInBound = r >= 0 && r < row;
+    const colInBound = c >= 0 && c < col;
+    if (!rowInBound || !colInBound || matrix[r][c] <= prevVal) return 0;
+    // base case: if in cache/visited, return cache value
+    if (cache[r][c]) return cache[r][c];
+
+    // Recursive case:
+    // Traverse left, right, up, down
+    prevVal = matrix[r][c];
+    cache[r][c] = 1;
+    const left = dfs(r, c - 1, matrix, row, col, cache, prevVal);
+    const right = dfs(r, c + 1, matrix, row, col, cache, prevVal);
+    const up = dfs(r - 1, c, matrix, row, col, cache, prevVal);
+    const down = dfs(r + 1, c, matrix, row, col, cache, prevVal);
+    cache[r][c] += Math.max(left, right, up, down);
+    // Update max
+    max = Math.max(max, cache[r][c]);
+    // Return cache
+    return cache[r][c];
+  }
+};
+matrix = [
+  [3, 4, 5],
+  [3, 2, 6],
+  [2, 2, 1],
+];
+console.log(longestIncreasingPath(matrix));
+matrix = [
+  [9, 9, 4],
+  [6, 6, 8],
+  [2, 1, 1],
+];
+console.log(longestIncreasingPath(matrix));
