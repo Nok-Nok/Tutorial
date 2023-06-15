@@ -280,9 +280,47 @@ var canPartition = function (nums) {
   }
   return false;
 };
-nums = [1, 5, 11, 5];
-console.log(canPartition(nums));
-nums = [1, 2, 3, 5];
-console.log(canPartition(nums));
-nums = [1, 2, 5];
-console.log(canPartition(nums));
+// nums = [1, 5, 11, 5];
+// console.log(canPartition(nums));
+// nums = [1, 2, 3, 5];
+// console.log(canPartition(nums));
+// nums = [1, 2, 5];
+// console.log(canPartition(nums));
+
+var uniquePaths = function (m, n) {
+  // Intiailize dp
+  let dp = new Array(n).fill(0);
+  // Since if we only have 1 last cell, we only 1 way to get to the star
+  dp[n - 1] = 1;
+  for (let i = 0; i < m; i++) {
+    // Intialize newDp
+    const newDp = new Array(n).fill(0);
+    // Since if we only have 1 last cell, we only 1 way to get to the star
+    newDp[n - 1] = 1;
+    for (let j = n - 2; j >= 0; j--) {
+      // f(n) = f(right)+f(down)
+      newDp[j] = newDp[j + 1] + dp[j];
+    }
+    dp = newDp;
+  }
+  return dp[0];
+};
+
+// Optimize, but harder to come up with
+
+var uniquePaths = function (m, n) {
+  // Intiailize dp
+  let dp = new Array(n).fill(0);
+  // Since if we only have 1 last cell, we only 1 way to get to the star
+  dp[n - 1] = 1;
+  for (let i = 0; i < m; i++) {
+    for (let j = n - 2; j >= 0; j--) {
+      // f(n) = f(right)+f(down)
+      // f(cur) = f(prev right) + f(prev)
+      dp[j] += dp[j + 1];
+    }
+  }
+  return dp[0];
+};
+(m = 3), (n = 7);
+console.log(uniquePaths(m, n));
