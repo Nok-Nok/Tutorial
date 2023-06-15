@@ -322,5 +322,101 @@ var uniquePaths = function (m, n) {
   }
   return dp[0];
 };
-(m = 3), (n = 7);
-console.log(uniquePaths(m, n));
+// (m = 3), (n = 7);
+// console.log(uniquePaths(m, n));
+// Topdown memoize DP
+// Time Complexity: O(2*p)-> O(p): p is length of prices
+// Space Complexity: O(2*p)-> O(p): p is length of prices
+var maxProfit = function (prices) {
+  const cache = {};
+  return dfs(prices, 0, true);
+  function dfs(prices, i, readyForBuy) {
+    // Base case:
+    // If exceed prices, return 0
+    if (i >= prices.length) return 0;
+    const key = i + ',' + readyForBuy;
+    // If in cache, return cache
+    if (key in cache) return cache[key];
+
+    // Recursive case
+    let buy = -Infinity;
+    let sell = -Infinity;
+    let skip = -Infinity;
+    // Option 1: Skip
+    skip = dfs(prices, i + 1, readyForBuy);
+    // Option 2: If readyForBuy, buy
+    if (readyForBuy) buy = dfs(prices, i + 1, false) - prices[i];
+    // Option 3: If cannot buy, sell then skip
+    else sell = dfs(prices, i + 2, true) + prices[i];
+    // Return the max of 3 options
+    return (cache[key] = Math.max(buy, sell, skip));
+  }
+};
+
+// var maxProfit = function (prices) {};
+// prices = [1, 2, 3, 0, 2];
+// console.log(maxProfit(prices));
+// prices = [1];
+// console.log(maxProfit(prices));
+// prices = [1, 2, 4];
+// console.log(maxProfit(prices));
+// prices = [1, 4, 2];
+// console.log(maxProfit(prices));
+
+// Time Complexity O(a*n) where a is the amount and n is length of coins
+// Space Complexity: O(a) where a is the amount
+var change = function (amount, coins) {
+  let dp = new Array(amount + 1).fill(0);
+  dp[0] = 1; //there is 1 way to make amount of 0
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      // f(cur) = f(prev) + f(prev-coin)
+      dp[i] = dp[i] + dp[i - coin];
+    }
+  }
+  return dp[amount];
+};
+// (amount = 5), (coins = [1, 2, 5]);
+// console.log(change(amount, coins));
+
+// Time Complexity: O(n*s) where s is total of nums and n is length of nums
+// Space Complexity: O(s) where s is the total of nums
+var findTargetSumWays = function (nums, target) {
+  // Intialize a cache
+  let cache = { 0: 1 };
+  for (const num of nums) {
+    const newCache = {};
+    for (let val in cache) {
+      val = Number(val);
+      newCache[val + num] = (newCache[val + num] ?? 0) + cache[val];
+      newCache[val - num] = (newCache[val - num] ?? 0) + cache[val];
+    }
+
+    cache = newCache;
+  }
+  return cache[target] ?? 0;
+};
+
+// Time Complexity: O(n*s) where s is total of nums and n is length of nums
+// Space Complexity: O(s) where s is the total of nums
+var findTargetSumWays = function (nums, target) {
+  // Find total
+  let total = nums.reduce((prev, cur) => prev + cur);
+  // Initialize dp
+  let dp = new Array(total * 2 + 1).fill(0);
+  dp[total] = 1;
+  let range = 0;
+  for (const num of nums) {
+    const newDp = new Array(total * 2 + 1).fill(0);
+    for (let i = total - range; i <= total + range; i++) {
+      newDp[i + num] += dp[i];
+      newDp[i - num] += dp[i];
+    }
+    range += num;
+    dp = newDp;
+  }
+  return dp[total + target] ?? 0;
+};
+
+(nums = [1, 1, 1, 1, 1]), (target = 3);
+console.log(findTargetSumWays(nums, target));
