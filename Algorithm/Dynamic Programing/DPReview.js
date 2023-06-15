@@ -208,9 +208,81 @@ var lengthOfLIS = function (nums) {
   }
   return inSub.length;
 };
-nums = [10, 9, 2, 5, 3, 7, 101, 18];
-console.log(lengthOfLIS(nums));
-nums = [0, 1, 0, 3, 2, 3];
-console.log(lengthOfLIS(nums));
-nums = [7, 7, 7, 7, 7, 7, 7];
-console.log(lengthOfLIS(nums));
+
+// nums = [10, 9, 2, 5, 3, 7, 101, 18];
+// console.log(lengthOfLIS(nums));
+// nums = [0, 1, 0, 3, 2, 3];
+// console.log(lengthOfLIS(nums));
+// nums = [7, 7, 7, 7, 7, 7, 7];
+// console.log(lengthOfLIS(nums));
+// Topdown DP
+// Time Complexity: O(n*t) where n is length of nums and t is the subset sum
+// Space Complexity: O(n*t) where n is length of nums and t is the subset sum
+var canPartition = function (nums) {
+  // Find target
+  let target = nums.reduce((prev, cur) => prev + cur);
+  if (target % 2) return false;
+  else target = target / 2;
+
+  const cached = new Set();
+
+  return dfs(nums, 0, 0);
+  function dfs(nums, i, total) {
+    // Base case: total = target, return true
+    if (total === target) return true;
+    // Base case: if total>target, in caches or end of nums, return false
+    const key = i + ',' + total;
+    if (total > target || cached.has(key) || i === nums.length) return false;
+
+    // Recursive case:
+    // Update cache
+    cached.add(key);
+    return dfs(nums, i + 1, total + nums[i]) || dfs(nums, i + 1, total);
+  }
+};
+// Space Complexity: O(t) where t is the subset sum target
+// Time Complexity: O(n*t) where n is length of nums and t is the subset sum target
+var canPartition = function (nums) {
+  // Find target
+  let target = nums.reduce((prev, cur) => prev + cur);
+  if (target % 2) return false;
+  else target = target / 2;
+  // dp
+  let visited = new Set([0]);
+  for (const num of nums) {
+    const newVisited = new Set();
+    for (const i of visited) {
+      // Option 1: not add
+      newVisited.add(i);
+      // Option 2: add
+      if (i + num <= target) newVisited.add(i + num);
+    }
+    if (newVisited.has(target)) return true;
+    visited = newVisited;
+  }
+  return false;
+};
+
+var canPartition = function (nums) {
+  // Find target
+  let target = nums.reduce((prev, cur) => prev + cur);
+  if (target % 2) return false;
+  else target = target / 2;
+  // Intialize dp array
+  const dp = new Array(target + 1).fill(false);
+  // If we start at target, we guarantee to get to target value
+  dp[target] = true;
+  for (const num of nums) {
+    for (let i = 0; i <= target - num; i++) {
+      dp[i] = dp[i] || dp[i + num];
+    }
+    if (dp[0]) return true;
+  }
+  return false;
+};
+nums = [1, 5, 11, 5];
+console.log(canPartition(nums));
+nums = [1, 2, 3, 5];
+console.log(canPartition(nums));
+nums = [1, 2, 5];
+console.log(canPartition(nums));
