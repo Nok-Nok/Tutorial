@@ -160,20 +160,22 @@ var coinChange = function (coins, amount) {
 // (coins = [1]), (amount = 0);
 // console.log(coinChange(coins, amount));
 
-// var maxProduct = function (nums) {
-//   let min = 1;
-//   let max = 1;
-//   let maxP = -Infinity;
-//   for (const num of nums) {
-//     const newMax = Math.max(max * num, min * num, num);
-//     const newMin = Math.min(max * num, min * num, num);
-//     max = newMax;
-//     min = newMin;
-//     // console.log([num, max, min]);
-//     maxP = Math.max(maxP, max);
-//   }
-//   return maxP;
-// };
+var maxProduct = function (nums) {
+  // Nums can switch sign, keep track with all the min (lowest neg), all the max (highest pos) => if times cur val, we can get the max value
+  // f(n) = Math.max(cur val,
+  let min = 1;
+  let max = 1;
+  let maxP = -Infinity;
+  for (const num of nums) {
+    // Keep previous or reset
+    const nextMin = Math.min(num, min * num, max * num);
+    const nextMax = Math.max(num, min * num, max * num);
+    min = nextMin;
+    max = nextMax;
+    maxP = Math.max(maxP, max);
+  }
+  return maxP;
+};
 // nums = [2, -5, -2, -4, 3];
 // console.log(maxProduct(nums));
 // nums = [-2, 0, -1];
@@ -184,3 +186,31 @@ var coinChange = function (coins, amount) {
 // console.log(maxProduct(nums));
 // nums = [1, 0, -1, 2, 3, -5, -2];
 // console.log(maxProduct(nums));
+// Time Complexity: O(n2)
+// Space Complexity: O(n)
+var lengthOfLIS = function (nums) {
+  // Intialize a array to store increasing num
+  const inSub = [];
+  // Loop from end
+  for (let i = nums.length - 1; i >= 0; i--) {
+    const num = nums[i];
+    // Push num to inSub if last val of inSub > num
+    if (!inSub.length || inSub[inSub.length - 1] > num) inSub.push(num);
+    // Insert num in the inSub array if the previous val >= num
+    else {
+      for (let j = inSub.length - 1; j >= 0; j--) {
+        if (inSub[j - 1] > num || j === 0) {
+          inSub[j] = num;
+          break;
+        }
+      }
+    }
+  }
+  return inSub.length;
+};
+nums = [10, 9, 2, 5, 3, 7, 101, 18];
+console.log(lengthOfLIS(nums));
+nums = [0, 1, 0, 3, 2, 3];
+console.log(lengthOfLIS(nums));
+nums = [7, 7, 7, 7, 7, 7, 7];
+console.log(lengthOfLIS(nums));
