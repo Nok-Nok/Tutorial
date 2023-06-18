@@ -41,69 +41,55 @@ Follow up: Could you solve it with time complexity O(height of tree)?
  */
 
 /**
- * 
- * @param {Searching
-DFS:
-If cur = key => proceed to delete
-If cur<key, and cur has right => traverse right
-If cur>key, and cur has left => traverse left
-else return the tree
-
-
-Delete:
-If cur does not have left or right => set cur = null
-If cur has left, cur = left
-else cur = right} root 
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
  */
-function deleteNode(root, key) {
-  if (root.val === key && !root.left && !root.right) return [];
-  dfs(root, key);
-  return root;
-  function dfs(root, key) {
-    // If root is null, return the tree
-    if (!root) return;
-    // If cur = key => proceed to delete
-    if (root.val === key) {
-      // If cur has left, cur = left
-      if (root.left) cur = left;
-      // else if cur has right, cur = right
-      else if (root.right) cur = right;
-      // If cur does not have left or right => set cur = null
-      else root = null;
-      return;
-    }
-    // If cur<key, and cur has right => traverse right
-    else if (root.val < key && root.right) {
-      // If right node = key => proceed to delete
-      if (root.right === key) {
-        _deleteNode(root, root.right, key, false);
-      }
-      // Else traverse right
-      else deleteNode(root.right, key);
-    }
-    // If cur>key, and cur has left => traverse left
-    else if (root.val > key && root.left) {
-      // If left node = key => proceed to delete
-      if (root.left === key) {
-        _deleteNode(root, root.left, key, false);
-      }
-      // Else traverse left
-      else deleteNode(root.left, key);
-    }
+/**
+ * @param {TreeNode} root
+ * @param {number} key
+ * @return {TreeNode}
+ */
+var deleteNode = function (root, key) {
+  const prev = new TreeNode(Infinity, root);
+  const [prevNodeFound, nodeFound, left] = findNode(prev, root, key, true);
+  // If not found node, return root:
+  if (!nodeFound) return prev.left;
+
+  // If found node does not have left branch, replace with its right branch
+  if (!nodeFound.left) {
+    if (left) prevNodeFound.left = nodeFound.right;
+    else prevNodeFound.right = nodeFound.right;
   }
+  // If found node has left branch, replace its val with max val of left branch
+  else {
+    const maxLeftNode = findAndRemoveMaxleft(nodeFound, nodeFound.left, true);
+    nodeFound.val = maxLeftNode.val;
+  }
+
+  return prev.left;
+};
+function findNode(prev, node, key, left) {
+  // Base case: node null, return null
+  if (!node) return [prev, node, left];
+  // Base case: found match, return node
+  if (node.val === key) return [prev, node, left];
+  // Recursive case
+  return node.val < key
+    ? findNode(node, node.right, key, false)
+    : findNode(node, node.left, key, true);
 }
 
-function _deleteNode(root, node, key, deleteLeftNode) {
-  // If there is left node, replace with left node
-  if (node.left) {
-    node.value = node.left.value;
-    node.left = node.left.left;
+function findAndRemoveMaxleft(prev, node, left) {
+  // If no right node, we get to max
+  if (!node.right) {
+    if (left) prev.left = node.left;
+    else prev.right = node.left;
+    return node;
   }
-  // Else if there is right node, replace with right node
-  else if (node.right) {
-    node.value = node.right.value;
-    node.right = node.right;
-  }
-  // Else delete the node
-  else delete deleteLeftNode ? root.left : root.right;
+  // Traverse right
+  return findAndRemoveMaxleft(node, node.right, false);
 }
