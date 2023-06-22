@@ -102,6 +102,30 @@ var maxProfit = function (prices, fee) {
   // Return the starting position that we only have buy option
   return curBuyMax;
 };
+var maxProfit = function (prices, fee) {
+  // Initialize a dp [buy,sell]
+  const dp = new Array(prices.length + 1).fill(0).map((e) => [0, 0]);
+  dp[prices.length] = [0, prices[prices.length - 1] - fee];
+  for (let i = prices.length - 1; i >= 0; i--) {
+    // Option 1: Buy or Skip
+    dp[i][0] = Math.max(dp[i + 1][0], -prices[i] + dp[i + 1][1]);
+    // Option 2: Sell or Skip
+    dp[i][1] = Math.max(dp[i + 1][1], prices[i] - fee + dp[i + 1][0]);
+    // Option 3: Skip
+  }
+  return dp[0][0];
+};
+var maxProfit = function (prices, fee) {
+  let curBuy = 0;
+  let curSell = prices[prices.length - 1] - fee;
+  for (let i = prices.length - 1; i >= 0; i--) {
+    let preBuy = Math.max(curBuy, -prices[i] + curSell);
+    let preSell = Math.max(curSell, prices[i] - fee + curBuy);
+    curBuy = preBuy;
+    curSell = preSell;
+  }
+  return curBuy;
+};
 (prices = [1, 3, 2, 8, 4, 9]), (fee = 2);
 console.log(maxProfit(prices, fee));
 (prices = [1, 3, 7, 5, 10, 3]), (fee = 3);
