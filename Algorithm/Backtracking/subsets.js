@@ -46,3 +46,28 @@ function subsets(nums) {
 
 // nums = [1, 2, 3];
 // console.log(subsets(nums));
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+// Space Complexity:
+// Time Complexity:
+var subsets = function (nums) {
+  const result = [];
+  dfs(nums, 0, []);
+  return result;
+  function dfs(nums, i, comb) {
+    // Base case: i exceed nums, add the comb
+    if (i === nums.length) return result.push([...comb]);
+
+    // Recursive case:
+    // Option 1: add to comb
+    dfs(nums, i + 1, comb.concat(nums[i]));
+    // Option 2: skip
+    dfs(nums, i + 1, comb);
+  }
+};
+
+nums = [1, 2, 3];
+console.log(subsets(nums));

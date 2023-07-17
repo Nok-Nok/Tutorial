@@ -45,3 +45,21 @@ function climbStairs(n) {
 }
 
 // console.log(climbStairs(2));
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function (n) {
+  if (n < 3) return n;
+  let prev = 1; //f(1)
+  let cur = 2; //f(2)
+  for (let i = 3; i <= n; i++) {
+    // f(n+1) = f(n)+ f(n-1)
+    const next = cur + prev;
+    // update
+    prev = cur;
+    cur = next;
+  }
+  return cur;
+};
