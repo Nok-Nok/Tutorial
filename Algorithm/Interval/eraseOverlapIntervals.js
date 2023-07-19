@@ -73,3 +73,55 @@ var eraseOverlapIntervals = function (intervals) {
 //   [2, 3],
 // ];
 // console.log(eraseOverlapIntervals(intervals));
+
+// ------------------------- REVIEW ----------------------------------------
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
+// Type: Interval Problem
+// Time Complexity: Sort => O(nlogn) + Traversing the intervals => O(n) => O(n+nlogn) ~ O(nlogn)
+// Space COmplexity: Sort => O(logn)
+var eraseOverlapIntervals = function (intervals) {
+  // Sort the interval by start time
+  intervals.sort(([prevS, _], [curS, __]) => prevS - curS);
+
+  // Initialize a count for removing interval
+  let minRemove = 0;
+  // Intialize end of prev interval (-Inf)
+  let prevE = -Infinity;
+  // Loop through the sorted intervals
+  for (const [curS, curE] of intervals) {
+    // If cur start time < prev end time => overlap
+    if (curS < prevE) {
+      // Increase remove
+      minRemove++;
+      // Update prev end time = min(cur end & prev end)
+      prevE = Math.min(prevE, curE);
+    }
+    // Else update prev end time to cur end time
+    else prevE = curE;
+  }
+
+  // Return count
+  return minRemove;
+};
+
+// What if sort based on endtime
+// Time Complexity: O(nlogn + n)
+// Space Complexity: O(logn)
+var eraseOverlapIntervals = function (intervals) {
+  // Sort the interval by end time
+  intervals.sort(([_, prevE], [__, curE]) => prevE - curE);
+  // Intialize count for remove
+  let minRemove = 0;
+  // Initialize prev end time
+  let prevE = -Infinity;
+  // Loop through the sorted interval
+  for (const [curS, curE] of intervals) {
+    // If the current interval overlap, remove the interval, otherwise update the new prevE time
+    curS < prevE ? minRemove++ : (prevE = curE);
+  }
+  // Return min num of removed intervals
+  return minRemove;
+};
