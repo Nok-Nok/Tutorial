@@ -82,7 +82,7 @@ var asteroidCollision = function (asteroids) {
   const stack = [];
   for (const cur of asteroids) {
     // if cur travel left => potential colision
-    if (cur < 0 && stack.length) {
+    if (cur < 0) {
       // Obtain prev asteroid
       let prev = stack.pop();
       // If the prev asteroid travel right, and size is <= cur one, destroy
