@@ -266,10 +266,10 @@ function longestPalindrome(s: string): string {
     return [l + 1, r - 1];
   }
 }
-let s = 'ababad';
-console.log(longestPalindrome(s));
-s = 'cbbd';
-console.log(longestPalindrome(s));
+// let s = 'ababad';
+// console.log(longestPalindrome(s));
+// s = 'cbbd';
+// console.log(longestPalindrome(s));
 
 // 322. Coin Change
 
@@ -326,3 +326,147 @@ function coinChange(coins: number[], amount: number): number {
 // const coins = [2, 5, 10, 1];
 // const amount = 27;
 // console.log(coinChange(coins, amount));
+
+// 152. Maximum Product Subarray
+
+/**
+ * Given an integer array nums, find a subarray that has the largest product, and return the product.
+
+The test cases are generated so that the answer will fit in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+ 
+
+Constraints:
+
+1 <= nums.length <= 2 * 104
+-10 <= nums[i] <= 10
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+ */
+
+function maxProduct1(nums: number[]): number {
+  // Pointer for positive product
+  let pos = 1;
+  // Pointer for negative product
+  let neg = 1;
+  // Intiailize max
+  let max = -Infinity;
+  // At each position: we can choose to multiply w/ the number or reset the product
+  // How to update positive and negtaive product based on our decision?
+  for (const curVal of nums) {
+    // If cur val = 0 => Reset pos & neg product, and update max to 0 if applicable
+    // If cur val >0 => pos = pos * curval, neg = neg * curval
+    if (curVal >= 0) {
+      pos = Math.max(pos * curVal, curVal);
+      neg = neg * curVal;
+    }
+    // Else if cur val<0, get max pos and min neg
+    else {
+      const nextPos = Math.max(curVal, neg * curVal);
+      neg = Math.min(pos * curVal, curVal);
+      pos = nextPos;
+    }
+    // Max = Math.max(pos, neg, cur val)
+    max = Math.max(max, pos);
+  }
+  return max;
+}
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+function maxProduct(nums: number[]): number {
+  // Pointer for positive product
+  let pos = 1;
+  // Pointer for negative product
+  let neg = 1;
+  // Intiailize max
+  let max = -Infinity;
+  // At each position: we can choose to multiply w/ the number or reset the product
+  // How to update positive and negtaive product based on our decision?
+  for (const curVal of nums) {
+    // If cur val = 0 => Reset pos & neg product, and update max to 0 if applicable
+    // If cur val >0 => pos = pos * curval, neg = neg * curval
+    // Else if cur val<0, get max pos and min neg
+    // Since if curVal < 0 , the product will switch sign, we would be safe using max and min here
+    const nextPos = Math.max(curVal, pos * curVal, neg * curVal);
+    const nextNeg = Math.min(curVal, pos * curVal, neg * curVal);
+    pos = nextPos;
+    neg = nextNeg;
+    // Max = Math.max(pos, neg, cur val)
+    max = Math.max(max, pos);
+  }
+  return max;
+}
+// const nums = [2, -5, -2, -4, 3];
+// console.log(maxProduct(nums));
+
+// 139. Word Break
+
+/**
+ * Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ 
+
+Example 1:
+
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length <= 300
+1 <= wordDict.length <= 1000
+1 <= wordDict[i].length <= 20
+s and wordDict[i] consist of only lowercase English letters.
+All the strings of wordDict are unique.
+ */
+
+// Time complexity: O(n * m * k) where n is length of string, m is number of word in wordDict and k is average length of word in wordDict
+// Space complexity: O(n) where n is length of string since we are using that to construct the dp array
+function wordBreak(s: string, wordDict: string[]): boolean {
+  // Initialize a dp array
+  const dp = new Array(s.length + 1).fill(false);
+  dp[s.length] = true; //if we are given an empty string, this will be true
+
+  // Loop from end of string
+  for (let i = s.length - 1; i >= 0; i--) {
+    for (const lookUpWord of wordDict) {
+      if (i + lookUpWord.length <= s.length) {
+        const word = s.slice(i, i + lookUpWord.length);
+        if (word === lookUpWord && dp[i + lookUpWord.length]) {
+          dp[i] = true;
+          break;
+        }
+      }
+    }
+  }
+  return dp[0];
+}
+// const s = 'catsandog',
+//   wordDict = ['cats', 'dog', 'sand', 'and', 'cat'];
+// console.log(wordBreak(s, wordDict));
