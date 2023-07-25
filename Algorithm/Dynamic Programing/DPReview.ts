@@ -450,11 +450,11 @@ All the strings of wordDict are unique.
 // Space complexity: O(n) where n is length of string since we are using that to construct the dp array
 function wordBreak(s: string, wordDict: string[]): boolean {
   // Initialize a dp array
-  const dp = new Array(s.length + 1).fill(false);
+  const dp: boolean[] = new Array(s.length + 1).fill(false);
   dp[s.length] = true; //if we are given an empty string, this will be true
 
   // Loop from end of string
-  for (let i = s.length - 1; i >= 0; i--) {
+  for (let i: number = s.length - 1; i >= 0; i--) {
     for (const lookUpWord of wordDict) {
       if (i + lookUpWord.length <= s.length) {
         const word = s.slice(i, i + lookUpWord.length);
