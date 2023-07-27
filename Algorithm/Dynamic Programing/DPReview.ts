@@ -470,3 +470,105 @@ function wordBreak(s: string, wordDict: string[]): boolean {
 // const s = 'catsandog',
 //   wordDict = ['cats', 'dog', 'sand', 'and', 'cat'];
 // console.log(wordBreak(s, wordDict));
+
+// 300. Longest Increasing Subsequence
+
+/**
+ * Given an integer array nums, return the length of the longest strictly increasing 
+subsequence
+.
+
+ 
+
+Example 1:
+
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+Example 2:
+
+Input: nums = [0,1,0,3,2,3]
+Output: 4
+Example 3:
+
+Input: nums = [7,7,7,7,7,7,7]
+Output: 1
+ 
+
+Constraints:
+
+1 <= nums.length <= 2500
+-104 <= nums[i] <= 104
+ 
+
+Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
+ */
+// This is a DP using Bottom UP approach but will have an O(n2)
+// Time complexity: O(n2)
+// Space Complexity: O(n)
+function lengthOfLIS(nums: number[]): number {
+  // Intialize a dp aray fill w/ 1 since all number can form a min length of 1
+  const dp: number[] = new Array(nums.length).fill(1);
+  let maxLength = 1;
+  // Loop through the nums array
+  for (let i = 0; i < nums.length; i++) {
+    // Loop from start to current num to find the max subsequence lenght it could make
+    for (let j = 0; j < i; j++) {
+      // If found a smaller value => we can append current number to the end of that subsquence => get max length
+      if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], 1 + dp[j]);
+    }
+    // Update maxLength
+    maxLength = Math.max(maxLength, dp[i]);
+  }
+  return maxLength;
+}
+// const nums = [10, 9, 2, 5, 3, 7, 101, 18];
+// console.log(lengthOfLIS(nums));
+
+// 416. Partition Equal Subset Sum
+
+/**
+ * Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
+
+ 
+
+Example 1:
+
+Input: nums = [1,5,11,5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+Example 2:
+
+Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
+ 
+
+Constraints:
+
+1 <= nums.length <= 200
+1 <= nums[i] <= 100
+ */
+// Time Complexity: O(n * t) where n is number of nums and t is the target sum of the subset
+// Space Complexity: O(t) where t is the target sum of the subset
+function canPartition(nums: number[]): boolean {
+  let target: number = nums.reduce((prev, cur) => prev + cur);
+  // Edge case: if target is odd, return false
+  if (target % 2) return false;
+  target = target / 2;
+  // Initialize a dp array, assum we cannot make the partition => all false
+  let dp: boolean[] = new Array(target + 1).fill(false);
+  // Intiailize condition, for target of 0, we will definitly get the partition
+  dp[0] = true;
+  // Loop throug nums
+  for (const num of nums) {
+    // Loop through the dp array backward => remove the need of creating 1 more array
+    for (let t: number = target; t >= num; t--) {
+      // cur = EITHER we can hit the target with using previous nums OR Using the cur num
+      dp[t] = dp[t] || dp[t - num];
+    }
+  }
+  return dp[target];
+}
+const nums = [1, 5, 11, 5, 4, 2, 1, 5];
+console.log(canPartition(nums));
