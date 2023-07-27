@@ -31,13 +31,15 @@ Constraints:
 0 <= amount <= 104
  */
 
-// This is a DP question, can use 2D array, but may change it to 1D array
+// This  is a DP question, can use 2D array, but may change it to 1D array
 /**
  * coins = [1,2,5]
  * amount = 6
  * f(6,[1]) = 1 + f(5,[1]) = 2 + f(4,[1]) = .... + 6
- * f(6,[1,2]) = min(f(6,[1]), 1 + f(4,[2,1])) = min (6, 5, 2 + f(2, [2,1])) = min (6, 5, 4, 3 + f(0, [2,1])) = 3
+ * f(6,[1,2]) = min(f(6,[1]), 1 + f(4,[2,1])) = min (6, 5, 2 + f(2, [2,1])) = min (6, 5, 4, 3+ f(0, [2,1])) = 3
  */
+// Time Complexity: O(n)
+// Space Complexity: O(n)
 function coinChange(coins: number[], amount: number): number {
   // Initialize the dp array
   const dp: number[] = new Array(amount + 1).fill(Infinity);
