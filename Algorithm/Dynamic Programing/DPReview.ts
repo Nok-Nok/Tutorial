@@ -572,3 +572,161 @@ function canPartition(nums: number[]): boolean {
 }
 const nums = [1, 5, 11, 5, 4, 2, 1, 5];
 console.log(canPartition(nums));
+
+// 62. Unique Paths
+
+/**
+ * There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
+
+Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
+
+The test cases are generated so that the answer will be less than or equal to 2 * 109.
+
+ 
+
+Example 1:
+
+
+Input: m = 3, n = 7
+Output: 28
+Example 2:
+
+Input: m = 3, n = 2
+Output: 3
+Explanation: From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+1. Right -> Down -> Down
+2. Down -> Down -> Right
+3. Down -> Right -> Down
+ 
+
+Constraints:
+
+1 <= m, n <= 100
+ */
+// Time Complexity: O(m*n)
+// Space Complexity: O(n)
+function uniquePaths(m: number, n: number): number {
+  // Intialize a dp array
+  const dp: number[] = new Array(n).fill(0);
+  // Intialize condition: at the position [0][0], we have 1 way
+  dp[0] = 1;
+  // Loop through each row
+  for (let i: number = 0; i < m; i++) {
+    for (let j: number = 1; j < n; j++) {
+      // To reach the current position: we can only move down and right
+      // => cur = f(up) + f(left) = prev val + the left val
+      dp[j] += dp[j - 1];
+    }
+  }
+  return dp[n - 1];
+}
+const m = 3,
+  n = 7;
+console.log(uniquePaths(m, n));
+
+// 1143. Longest Common Subsequence
+/**
+ * Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+For example, "ace" is a subsequence of "abcde".
+A common subsequence of two strings is a subsequence that is common to both strings.
+
+ 
+
+Example 1:
+
+Input: text1 = "abcde", text2 = "ace" 
+Output: 3  
+Explanation: The longest common subsequence is "ace" and its length is 3.
+Example 2:
+
+Input: text1 = "abc", text2 = "abc"
+Output: 3
+Explanation: The longest common subsequence is "abc" and its length is 3.
+Example 3:
+
+Input: text1 = "abc", text2 = "def"
+Output: 0
+Explanation: There is no such common subsequence, so the result is 0.
+ 
+
+Constraints:
+
+1 <= text1.length, text2.length <= 1000
+text1 and text2 consist of only lowercase English characters.
+ */
+
+// Let do top down DP w/ memoization first (this might have stack over flow) - Took 28 mins
+// Time complexity: O(len1*len2)
+// Space complexity: O(len1*len2) for caching + O(max(len1, len2)) for recursion stack
+function longestCommonSubsequence1(text1: string, text2: string): number {
+  const cache = {};
+  return dfs(0, 0);
+  function dfs(i1: number, i2: number): number {
+    // Base case, reach the end of either string, return 0
+    if (i1 === text1.length || i2 === text2.length) return 0;
+    // Base case: if in cache, return cache
+    const pos: string = i1 + ',' + i2;
+    if (pos in cache) return cache[pos];
+    // Recursive case:
+    // Match
+    const match = (text1[i1] === text2[i2] ? 1 : 0) + dfs(i1 + 1, i2 + 1);
+    // Skip
+    const skip1 = dfs(i1 + 1, i2);
+    const skip2 = dfs(i1, i2 + 1);
+    return (cache[pos] = Math.max(skip1, skip2, match));
+  }
+}
+// DP approach w/ 2D array
+// Added 6 mins for optimize to 2D array
+// Time Complexity: O(len1*len2)
+// Space Complexity: O(len1*len2)
+function longestCommonSubsequence1(text1: string, text2: string): number {
+  // Intiailize the 2D array
+  const dp: number[][] = new Array(text1.length + 1)
+    .fill(0)
+    .map((e) => new Array(text2.length + 1).fill(0));
+  for (let i1: number = text1.length - 1; i1 >= 0; i1--) {
+    for (let i2: number = text2.length - 1; i2 >= 0; i2--) {
+      // Current position = Max (skip1, skip2 and match if possible)
+      dp[i1][i2] = Math.max(
+        dp[i1 + 1][i2],
+        dp[i1][i2 + 1],
+        (text1[i1] === text2[i2] ? 1 : 0) + dp[i1 + 1][i2 + 1]
+      );
+    }
+  }
+  console.table(dp);
+  return dp[0][0];
+}
+
+// Optimize approach for 1D array
+// Time Complexity: O(len1 * len2)
+// Space Complexity: O(Math.min(len1,len2) )
+function longestCommonSubsequence(text1: string, text2: string): number {
+  // Switch to ensure min Space Complexity
+  if (text1.length < text2.length)
+    return longestCommonSubsequence(text2, text1);
+
+  let prev: number[] = new Array(text2.length + 1).fill(0);
+  let cur: number[] = new Array(text2.length + 1).fill(0);
+  for (let i1: number = text1.length - 1; i1 >= 0; i1--) {
+    for (let i2: number = text2.length - 1; i2 >= 0; i2--) {
+      // Current position = (1+Match if possible) || Max(skip1, skip2)
+      // The reason why cur[i2+1] is still working because we loop backward, so this positive already got updated
+      cur[i2] =
+        text1[i1] === text2[i2]
+          ? 1 + prev[i2 + 1]
+          : Math.max(prev[i2], cur[i2 + 1]);
+    }
+    // Update dp array
+    [cur, prev] = [prev, cur];
+  }
+  return prev[0];
+}
+
+const text1 = 'abcba',
+  text2 = 'abcbcba';
+console.log(longestCommonSubsequence(text1, text2));
