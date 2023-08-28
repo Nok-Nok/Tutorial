@@ -1,35 +1,26 @@
 package com.noknok.awsimageupload.profile;
 
-import javax.swing.text.html.Option;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
 public class UserProfile {
-    private UUID id;
-    private String username;
+    private final UUID userProfileId;
+    private final String username;
     private String userProfileImageLink; //S3 key
 
-    public UserProfile(UUID id, String username, String userProfileImageLink) {
-        this.id = id;
+    public UserProfile(UUID userProfileId, String username, String userProfileImageLink) {
+        this.userProfileId = userProfileId;
         this.username = username;
         this.userProfileImageLink = userProfileImageLink;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public UUID getUserProfileId() {
+        return userProfileId;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     // We may instantiate the DB entry w/o the image link
@@ -46,13 +37,13 @@ public class UserProfile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserProfile that = (UserProfile) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(userProfileId, that.userProfileId) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(userProfileImageLink, that.userProfileImageLink);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, userProfileImageLink);
+        return Objects.hash(userProfileId, username, userProfileImageLink);
     }
 }

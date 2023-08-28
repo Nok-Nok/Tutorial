@@ -12,6 +12,7 @@ import java.util.UUID;
 // Construct the API layer for userprofile
 @RestController
 @RequestMapping ("api/v1/user-profile")
+@CrossOrigin("*") //Not best practice but this allows all other localhost to access to this port
 public class UserProfileController {
 
     //Inject UserprofileService
@@ -31,7 +32,7 @@ public class UserProfileController {
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
-            path = "{userProfileId}/image/download"
+            path = "{userProfileId}/image/upload"
     )
     public void uploadUserProfileImage(@PathVariable("userProfileId")UUID userProfileId,
             @RequestParam("file")MultipartFile file){
@@ -39,6 +40,11 @@ public class UserProfileController {
 
     }
 
+    // GET
+    @GetMapping("{userProfileId}/image/download")
+    public byte[] downloadUserProfileImage(@PathVariable("userProfileId") UUID userProfileId){
+        return userProfileService.downloadUserProfileImage(userProfileId);
+    }
     //PUT
 
 

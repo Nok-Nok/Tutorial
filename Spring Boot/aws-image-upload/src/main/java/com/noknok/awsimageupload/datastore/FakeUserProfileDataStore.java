@@ -14,8 +14,8 @@ public class FakeUserProfileDataStore {
 
     // Hard code the fake DB
     static {
-        USER_PROFILES.add(new UserProfile(UUID.randomUUID(), "janetjones",null));
-        USER_PROFILES.add(new UserProfile(UUID.randomUUID(), "antoniojunior",null));
+        USER_PROFILES.add(new UserProfile(UUID.fromString("102a1660-2e48-4fdd-83dc-0f97bbc63780"), "janetjones",null));
+        USER_PROFILES.add(new UserProfile(UUID.fromString("4ba76bfa-eabe-4af9-8890-c57854f04fc7"), "antoniojunior",null));
 
     }
     public List<UserProfile> getUserProfiles(){

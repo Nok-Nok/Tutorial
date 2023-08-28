@@ -1,6 +1,7 @@
 package com.noknok.awsimageupload.bucket;
 
 public enum BucketName {
+
     PROFILE_IMAGE("noknok-image-upload");
 
     private final String bucketName;
@@ -12,6 +13,6 @@ public enum BucketName {
     public String getBucketName() {
         return bucketName;
     }
-
-
 }
+
+
